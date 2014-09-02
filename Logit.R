@@ -16,3 +16,8 @@
 logit.prob<-function(logit){
   odd.prob(logit.odd(logit))
 }
+
+
+# cplot(X, f.tot.y~t.frame, group=t.frame, geom="boxplot", subset=AF.nM==20)
+# cplot(X, f.tot.y~t.frame, group=t.frame, geom="boxplot", subset=AF.nM==20)
+cplot(X, f.tot.y~t.frame, group=t.frame, geom="boxplot", subset=AF.nM==20)

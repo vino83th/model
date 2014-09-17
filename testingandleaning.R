@@ -52,6 +52,8 @@ barchart(amt.fac, col = "grey")
 histogram(employment, col = "grey")
 histogram(sav_acct, col = "grey")
 
+d <- sort(sample(nrow(g.data), nrow(g.data)*0.7))
+
 dev<-data[d,]
 val<-data[-d,]
 

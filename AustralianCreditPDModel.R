@@ -59,4 +59,27 @@ Histogram(Data12)
 Histogram(Data13)
 Histogram(Data14)
 
+# Clasification of the Data 2
+AustralianCR.data$Data16 <- as.factor(ifelse(Data2<=10,"0-10", ifelse(Data2<=40,"10-40","40+")))
+head(AustralianCR.data$Data16)
 
+# Clasification of the Data 3
+AustralianCR.data$Data17 <- as.factor(ifelse(Data3<=5,"0-5", ifelse(Data3<=12,"5-12","12+")))
+head(AustralianCR.data$Data12)
+
+# creating dependent variable 
+AustralianCR.data$Default <- as.factor(ifelse(Data15 == 1, "0", "1"))
+
+is.factor(AustralianCR.data$Default)
+contrasts(AustralianCR.data$Default)
+head(AustralianCR.data$Default)
+
+# we attach the data again to include the newly created variables
+attach(AustralianCR.data)
+
+
+# A mosaic plot is a graphical display that allows you to examine the relationship among two or more categorical variables. 
+
+mosaicplot(Default ~ Data16, col = T)
+mosaicplot(Default ~ Data3, col = T)
+mosaicplot(Default ~ Data4, col = T)

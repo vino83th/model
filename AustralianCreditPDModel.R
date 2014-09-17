@@ -56,6 +56,7 @@ plot(Data11, type = "l", col = "royalblue")
 plot(Data12, type = "l", col = "brown")
 plot(Data13, type = "l", col = "royalblue")
 plot(Data14, type = "l", col = "brown")
+graphics.off()
 
 # histogram
 histogram(Data1)
@@ -72,6 +73,7 @@ histogram(Data11)
 histogram(Data12)
 histogram(Data13)
 histogram(Data14)
+graphics.off()
 
 # Clasification of the Data 2
 AustralianCR.data$Data16 <- as.factor(ifelse(Data2<=10,"0-10", ifelse(Data2<=40,"10-40","40+")))

@@ -83,3 +83,9 @@ attach(AustralianCR.data)
 mosaicplot(Default ~ Data16, col = T)
 mosaicplot(Default ~ Data3, col = T)
 mosaicplot(Default ~ Data4, col = T)
+
+# The term spineplot has been applied over the last decade or so to a type of bar chart used particularly for showing frequencies, proportions, or percentages of two cross-classified categorical variables.
+
+spineplot(Default ~ Data6, color = TRUE)
+spineplot(Default ~ Data6, color = TRUE)
+

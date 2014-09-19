@@ -1,59 +1,73 @@
 data<-read.csv("C:/Documents and Settings/GermanCredit.csv")
-data$afford<-data$checking*
-data$savings*data$installp*data$housing
+
+data$afford<-data$checking*data$savings*data$installp*data$housing
+
 #code to convert variable to factor
 data$property <-as.factor(data$property)
+
 #code to convert to numeric
 data$age <-as.numeric(data$age)
+
 #code to convert to decimal
 data$amount<-as.double(data$amount)
-data$amount<-as.factor(ifelse(data$amount<=2500,'0-
-2500',ifelse(data$amount<=5000,'2600-5000','5000+')))
+
+data$amount<-as.factor(ifelse(data$amount<=2500,'0-2500',ifelse(data$amount<=5000,'2600-5000','5000+')))
+
 d = sort(sample(nrow(data), nrow(data)*.6))
 
 #select training sample
 train<-data[d,]
 test<-data[-d,]
 train<-subset(train,select=-default)
-#m<-
-glm(good_bad~.*(checking+amount),data=train,family=binomial
-())
-#m<-step(m)
-m<-glm(good_bad~.,data=train,family=binomial())
+
+#m<-glm(good_bad~.*(checking+amount),data=train,family=binomial())
+#m<-step(m)m<-glm(good_bad~.,data=train,family=binomial())
 #m<-glm(good_bad~(checking)*.,data=train,family=binomial())
-#m<-
-glm(good_bad~checking:duration+.,data=train,family=binomial
-())
-#m<-glm(good_bad~.+history:other+history:employed
-+checking:employed+checking:purpose,data=train,family=binom
-ial())
+#m<-glm(good_bad~checking:duration+.,data=train,family=binomial())
+#m<-glm(good_bad~.+history:other+history:employed+checking:employed+checking:purpose,data=train,family=binomial())
+
 library(ROCR)
+
 #score test data set
+
 test$score<-predict(m,type='response',test)
+
 pred<-prediction(test$score,test$good_bad)
+
 perf <- performance(pred,"tpr","fpr")
+
 plot(perf)
+
 max(attr(perf,'y.values')[[1]]-attr(perf,'x.values')[[1]])
+
 #get results of terms in regression
 g<-predict(m,type='terms',test)
+
 #function to pick top 3 reasons
-ftopk<- function(x,top=3){ 
-res=names(x)[order(x, decreasing = TRUE)][1:top]
+ftopk<- function(x,top=3){ res=names(x)[order(x, decreasing = TRUE)][1:top]
 paste(res,collapse=";",sep="")
 }
+
 # Application of the function using the top 3 rows
+
 topk=apply(g,1,ftopk,top=3)
+
 # Result
 #add reason list to scored tets sample
 test<-cbind(test, topk)
 
 library(randomForest)
+
 arf<-randomForest(good_bad~.,data=train,importance=TRUE,proximit,y=TRUE,ntree=500, keep.forest=TRUE)
 #plot variable importance
 varImpPlot(arf)
+
 testp4<-predict(arf,test,type='prob')[,2]
+
 pred4<-prediction(testp4,test$good_bad)
+
 perf4 <- performance(pred4,"tpr","fpr")
+
 m2<-glm(formula = good_bad ~ checking + duration + history
 + purpose + 
  amount + savings + employed + installp + marital +
@@ -67,12 +81,13 @@ checking:coapp +
  amount:age + checking:other + amount:other +
 amount:depends + 
  amount:telephon, family = binomial(), data = train)
-#m2<-glm(good_bad~.+history:other+history:employed
-+checking:employed+checking:purpose,data=train,family=binom
-ial())
+ 
+#m2<-glm(good_bad~.+history:other+history:employed+checking:employed+checking:purpose,data=train,family=binomial())
+
 m2<-glm(good_bad~.+history:other+history:employed
 +checking:employed+checking:purpose,data=train,family=binom
 ial())
+
 #m2<-glm(good_bad~.*afford,data=train,family=binomial())
 test$score2<-predict(m2,type='response',test)
 pred2<-prediction(test$score2,test$good_bad)
